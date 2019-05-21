@@ -98,7 +98,8 @@ module.exports = function(passport, user) {
           return done(null, false, { message: 'Incorrect password.' });
         }
 
-        const userinfo = user.get();
+        let userinfo = user.get();
+        userinfo.token = authenticationUtils.createToken(userinfo);
 
         return done(null, userinfo);
       }).catch((err) => {

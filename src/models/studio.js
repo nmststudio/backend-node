@@ -1,21 +1,22 @@
 const Sequelize = require('sequelize');
 
 let db = null;
+
 function registerDatabaseModel(model) {
   db = model;
 }
 
-const name = 'project';
+const name = 'studio';
 const schema = {
-  projectName: {
+  name: {
     type: Sequelize.STRING,
   },
 };
 
 
-const Project = {
+const Studio = {
   name,
   schema,
   registerDatabaseModel,
 };
-module.exports = Project;
+module.exports = Studio;
