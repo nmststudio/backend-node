@@ -108,8 +108,18 @@ function createToken(user) {
   console.log('creating Token for:', user)
   let scopes = ['user'];
   if (user.isAdmin) {
-    scopes = ['user', 'admin'];
+    scopes.push('admin');
   }
+  if (user.isOwner) {
+    scopes.push('admin');
+  }
+  if (user.isTrainer) {
+    scopes.push('admin');
+  }
+  if (user.isCustomer) {
+    scopes.push('admin');
+  }
+
   console.log('USER ID:', user.id)
   const payload = {
     sub: user.id,
@@ -122,15 +132,3 @@ function createToken(user) {
 }
 
 exports.createToken = createToken;
-
-function createEarlyToken(user) {
-  const payload = {
-    sub: user.id,
-    iat: moment().unix(),
-    exp: moment().add(14, 'days').unix(),
-    scopes: ['early-user'],
-  };
-  return jwt.encode(payload, secrets.TOKEN_SECRET);
-}
-
-exports.createEarlyToken = createEarlyToken;

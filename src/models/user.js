@@ -28,6 +28,7 @@ const schema = {
 
     type: Sequelize.INTEGER,
   },
+  // Account informations
   firstname: {
     type: Sequelize.STRING,
     //    notEmpty: true,
@@ -36,6 +37,7 @@ const schema = {
     type: Sequelize.STRING,
     //    notEmpty: true,
   },
+
 
   username: {
     type: Sequelize.TEXT,
@@ -51,7 +53,7 @@ const schema = {
       isEmail: true,
     },
   },
-
+  // Authentication information
   password: {
     type: Sequelize.STRING,
     //    allowNull: false,
@@ -72,6 +74,28 @@ const schema = {
     type: Sequelize.ENUM('active', 'inactive'),
     defaultValue: 'active',
   },
+  // ROLES
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
+  isOwner: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
+  isTrainer: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
+  isCustomer: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: true
+  },
+  // END OF ROLES
 };
 
 // Access and Editors
