@@ -44,12 +44,13 @@ const RouteManager = require('./utils/routeManager');
 // Controllers
 // User Controller
 const user_controller = require('./controllers/user');
+const studio_controller = require('./controllers/studio');
 // Auth Controller
 const authController = require('./controllers/auth/auth');
 const passportLocalController = require('./controllers/auth/passportLocal');
 const passportInstagramController = require('./controllers/auth/instagram');
 const passportFacebookController = require('./controllers/auth/facebook');
-
+const authenticationManager = require('./utils/authenticationManager');
 
 // TODO switch to development or production based on Env
 const routeManager = new RouteManager();
@@ -67,6 +68,8 @@ routeManager.addRoute(app, 'get', '/signin', passportLocalController.localSignIn
 routeManager.addRoute(app, 'post', '/signin', passportLocalController.localSignIn);
 routeManager.addRoute(app, 'get', '/dashboard', authController.isLoggedIn, authController.dashboard);
 routeManager.addRoute(app, 'get', '/logout', authController.logout);
+
+
 // Instagram auth routes
 // GET /auth/instagram
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -107,6 +110,13 @@ routeManager.addRoute(app, 'get', '/auth/facebook/callback',
   passportFacebookController.facebookCallback,
   passportFacebookController.redirectAfterSignup);
 
+// Studio Routes
+routeManager.addRoute(app, 'get', '/studios',
+  authenticationManager.ensureAuthenticated,
+  studio_controller.getStudios);
+routeManager.addRoute(app, 'post', '/studio',
+  authenticationManager.ensureAuthenticated,
+  studio_controller.createStudio);
 
 // debug all the register models and routes
 routeManager.listRoutes();

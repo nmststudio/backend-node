@@ -27,7 +27,9 @@ for (const modelKey in models) {
 // ar userdb = databaseManager.registerModel(user.modelName, user.shape)
 // var projectdb = databaseManager.registerModel(project.modelName, project.shape)
 databaseManager.registerRelationship(models.studio, models.user, BELONGS_TO_MANY, { through: 'StudioOwner' }, false);
-// databaseManager.registerRelationship(models.user, models.project, BELONGS_TO_MANY, { through: 'UserProject' }, false);
+databaseManager.registerRelationship(models.user, models.studio, BELONGS_TO_MANY, { through: 'StudioOwner' }, false);
+
+
 
 
 databaseManager.listModels();
