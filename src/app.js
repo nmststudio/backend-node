@@ -45,6 +45,8 @@ const RouteManager = require('./utils/routeManager');
 // User Controller
 const user_controller = require('./controllers/user');
 const studio_controller = require('./controllers/studio');
+const class_controller = require('./controllers/class');
+
 // Auth Controller
 const authController = require('./controllers/auth/auth');
 const passportLocalController = require('./controllers/auth/passportLocal');
@@ -117,6 +119,12 @@ routeManager.addRoute(app, 'get', '/studios',
 routeManager.addRoute(app, 'post', '/studio',
   authenticationManager.ensureAuthenticated,
   studio_controller.createStudio);
+
+
+// Classes routes
+routeManager.addRoute(app, 'post', '/class',
+  authenticationManager.ensureAuthenticated,
+  class_controller.createClass);
 
 // debug all the register models and routes
 routeManager.listRoutes();

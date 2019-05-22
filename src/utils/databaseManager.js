@@ -68,5 +68,8 @@ const BELONGS_TO = 'belongsTo';
 const HAS_MANY = 'hasMany';
 const BELONGS_TO_MANY = 'belongsToMany';
 module.exports = {
-  DatabaseManager, BELONGS_TO, HAS_MANY, BELONGS_TO_MANY,
+  DatabaseManager,
+  BELONGS_TO,
+  HAS_MANY,
+  BELONGS_TO_MANY,
 };
