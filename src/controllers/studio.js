@@ -15,8 +15,6 @@ const createStudio = function(req, res, next) {
       name,
     };
     userModel.getUser(req.user).then((user) => {
-
-
       Studio.create(data).then(studio => {
         user.addStudios(studio).then((newStudio) => {
           if (!newStudio) {
@@ -45,7 +43,16 @@ const getStudios = function(req, res) {
   });
 };
 
+const getStudio = function(req, res) {
+
+  studioModel.getStudio(req.params.id).then((studio) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(studio));
+  });
+};
+
 module.exports = {
   getStudios,
+  getStudio,
   createStudio,
 };
