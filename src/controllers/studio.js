@@ -1,6 +1,6 @@
 const studioModel = require('./../models/studio');
 const userModel = require('./../models/user');
-
+const User = userModel.getDatabaseModel()
 const Studio = studioModel.getDatabaseModel()
 
 const createStudio = function(req, res, next) {
@@ -31,8 +31,28 @@ const createStudio = function(req, res, next) {
       });
     });
   });
-
 }
+
+const editStudio = function(req, res, next) {
+  console.log(req.body)
+  Studio.findOne({
+    where: { id: req.body.id },
+    include: [{
+      model: User,
+      where: { id: req.user }
+    }]
+  }).then(studio => {
+    studio.update(req.body).then(() => {
+      Studio.findOne({ where: { id: req.body.id } }).then((updatedStudio) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(updatedStudio));
+      })
+
+    });
+  });
+}
+
+
 const getStudios = function(req, res) {
 
   userModel.getUser(req.user).then((user) => {
@@ -55,4 +75,5 @@ module.exports = {
   getStudios,
   getStudio,
   createStudio,
+  editStudio,
 };

@@ -119,6 +119,10 @@ routeManager.addRoute(app, 'get', '/studios',
 routeManager.addRoute(app, 'post', '/studio',
   authenticationManager.ensureAuthenticated,
   studio_controller.createStudio);
+routeManager.addRoute(app, 'put', '/studio',
+  authenticationManager.ensureAuthenticated,
+  studio_controller.editStudio);
+
 
 routeManager.addRoute(app, 'get', '/studio/:id',
   studio_controller.getStudio);
