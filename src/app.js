@@ -128,6 +128,9 @@ routeManager.addRoute(app, 'get', '/studio/:id',
   studio_controller.getStudio);
 
 // Classes routes
+routeManager.addRoute(app, 'get', '/studio/:id/class',
+  class_controller.getClasses);
+
 routeManager.addRoute(app, 'post', '/class',
   authenticationManager.ensureAuthenticated,
   class_controller.createClass);

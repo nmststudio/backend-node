@@ -15,6 +15,9 @@ class DatabaseManager {
         acquire: 30000,
         idle: 10000,
       },
+      dialectOptions: {
+        dateStrings: 'DATETIME',
+      }
     });
   }
 

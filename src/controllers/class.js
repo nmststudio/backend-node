@@ -24,9 +24,10 @@ const createClass = function(req, res, next) {
     }
     const data = {
       name: req.body.event.title || 'Test class',
-      startDate: req.body.event.start || new Date(),
-      endDate: req.body.event.start || new Date(),
+      startTime: req.body.event.start || new Date(),
+      endTime: req.body.event.end || new Date(),
     }
+    console.log('CREATE EVENT', data)
     Class.create(data).then(newClass => {
       studio.addClass(newClass).then((classStudio) => {
         if (!classStudio) {
@@ -45,20 +46,27 @@ const createClass = function(req, res, next) {
 }
 const getClasses = function(req, res) {
 
-  studioModel.getStudio(req.params.studioId).then((studio) => {
-    studio.getStudios().then((studios) => {
-      res.setHeader('Content-Type', 'application/json');
-      res.send(JSON.stringify(studios));
-    });
+  Class.findAll({ where: { studioId: req.params.id } }).then((classes) => {
+
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(classes));
+
   });
 };
 
 const editClass = function(req, res) {
   // TODO: URGENT: this put doesn't have an authentication strategy
+  console.log(req.params.id)
   Class.findOne({
     where: { id: req.params.id }
-  }).then(classIstance => {
-    classIstance.update(req.body).then(() => {
+  }).then(classInstance => {
+    console.log(classInstance);
+    const data = {
+      name: req.body.title,
+      startTime: req.body.start,
+      endTime: req.body.end
+    }
+    classInstance.update(data).then(() => {
       Class.findOne({ where: { id: req.params.id } }).then((updatedClass) => {
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(updatedClass));
