@@ -8,7 +8,7 @@ const Studio = studioModel.getDatabaseModel()
 const Class = classModel.getDatabaseModel()
 
 const createClass = function(req, res, next) {
-
+  console.log(req.body)
   Studio.findOne({
     where: { id: req.body.studioId },
     include: [{
@@ -22,12 +22,13 @@ const createClass = function(req, res, next) {
       res.status(404).send({ error: 'Studio doesn\'t exist' });
       return;
     }
-
+    console.log('create class')
     const data = {
-      name: req.body.name || 'Test class',
-      startDate: req.body.startDate || new Date(),
-      endDate: req.body.endDate || new Date(),
+      name: req.body.event.title || 'Test class',
+      startDate: req.body.event.start || new Date(),
+      endDate: req.body.event.start || new Date(),
     }
+    console.log(data)
     Class.create(data).then(newClass => {
       studio.addClass(newClass).then((classStudio) => {
         if (!classStudio) {
@@ -46,8 +47,8 @@ const createClass = function(req, res, next) {
 }
 const getClasses = function(req, res) {
 
-  userModel.getUser(req.user).then((user) => {
-    user.getStudios().then((studios) => {
+  studioModel.getStudio(req.params.studioId).then((studio) => {
+    studio.getStudios().then((studios) => {
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify(studios));
     });
