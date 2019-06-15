@@ -22,13 +22,11 @@ const createClass = function(req, res, next) {
       res.status(404).send({ error: 'Studio doesn\'t exist' });
       return;
     }
-    console.log('create class')
     const data = {
       name: req.body.event.title || 'Test class',
       startDate: req.body.event.start || new Date(),
       endDate: req.body.event.start || new Date(),
     }
-    console.log(data)
     Class.create(data).then(newClass => {
       studio.addClass(newClass).then((classStudio) => {
         if (!classStudio) {
@@ -55,7 +53,24 @@ const getClasses = function(req, res) {
   });
 };
 
+const editClass = function(req, res) {
+  // TODO: URGENT: this put doesn't have an authentication strategy
+  Class.findOne({
+    where: { id: req.params.id }
+  }).then(classIstance => {
+    classIstance.update(req.body).then(() => {
+      Class.findOne({ where: { id: req.params.id } }).then((updatedClass) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(updatedClass));
+      })
+
+    });
+  });
+};
+
+
 module.exports = {
   getClasses,
   createClass,
+  editClass
 };

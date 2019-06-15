@@ -36,7 +36,7 @@ const createStudio = function(req, res, next) {
 const editStudio = function(req, res, next) {
   console.log(req.body)
   Studio.findOne({
-    where: { id: req.body.id },
+    where: { id: req.params.id },
     include: [{
       model: User,
       where: { id: req.user }

@@ -119,7 +119,7 @@ routeManager.addRoute(app, 'get', '/studios',
 routeManager.addRoute(app, 'post', '/studio',
   authenticationManager.ensureAuthenticated,
   studio_controller.createStudio);
-routeManager.addRoute(app, 'put', '/studio',
+routeManager.addRoute(app, 'put', '/studio/:id',
   authenticationManager.ensureAuthenticated,
   studio_controller.editStudio);
 
@@ -131,6 +131,10 @@ routeManager.addRoute(app, 'get', '/studio/:id',
 routeManager.addRoute(app, 'post', '/class',
   authenticationManager.ensureAuthenticated,
   class_controller.createClass);
+
+routeManager.addRoute(app, 'put', '/class/:id',
+  authenticationManager.ensureAuthenticated,
+  class_controller.editClass);
 
 // debug all the register models and routes
 routeManager.listRoutes();
