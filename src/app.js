@@ -46,6 +46,7 @@ const RouteManager = require('./utils/routeManager');
 const user_controller = require('./controllers/user');
 const studio_controller = require('./controllers/studio');
 const class_controller = require('./controllers/class');
+const trainer_controller = require('./controllers/trainer');
 
 // Auth Controller
 const authController = require('./controllers/auth/auth');
@@ -138,6 +139,18 @@ routeManager.addRoute(app, 'post', '/class',
 routeManager.addRoute(app, 'put', '/class/:id',
   authenticationManager.ensureAuthenticated,
   class_controller.editClass);
+
+// Trainers Routes
+routeManager.addRoute(app, 'get', '/studio/:id/trainer',
+  trainer_controller.getTrainers);
+
+routeManager.addRoute(app, 'post', '/trainer',
+  authenticationManager.ensureAuthenticated,
+  trainer_controller.createTrainer);
+
+routeManager.addRoute(app, 'put', '/trainer/:id',
+  authenticationManager.ensureAuthenticated,
+  trainer_controller.editTrainer);
 
 // debug all the register models and routes
 routeManager.listRoutes();

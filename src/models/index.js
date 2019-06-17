@@ -28,7 +28,11 @@ databaseManager.registerRelationship(models.studio, models.user, BELONGS_TO_MANY
 databaseManager.registerRelationship(models.user, models.studio, BELONGS_TO_MANY, { through: 'StudioOwner' }, false);
 
 
+// Relationship Class
 databaseManager.registerRelationship(models.studio, models.class, HAS_MANY);
+
+// Relationship Trainer
+databaseManager.registerRelationship(models.studio, models.trainer, HAS_MANY);
 
 
 
