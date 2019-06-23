@@ -33,6 +33,8 @@ databaseManager.registerRelationship(models.studio, models.class, HAS_MANY);
 
 // Relationship Trainer
 databaseManager.registerRelationship(models.studio, models.trainer, HAS_MANY);
+databaseManager.registerRelationship(models.trainer, models.class, BELONGS_TO_MANY, { through: 'ClassTrainer' }, false);
+databaseManager.registerRelationship(models.class, models.trainer, BELONGS_TO_MANY, { through: 'ClassTrainer' }, false);
 
 
 

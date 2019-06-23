@@ -26,7 +26,8 @@ const createTrainer = function(req, res, next) {
       return;
     }
     const data = {
-      name: req.body.event.name || 'Trainer',
+      firstname: req.body.trainer.firstname || 'Trainer',
+      lastname: req.body.trainer.lastname || 'Last Name',
     }
     console.log('CREATE EVENT', data)
     Trainer.create(data).then(newTrainer => {
@@ -36,7 +37,7 @@ const createTrainer = function(req, res, next) {
           return
         } else {
           res.setHeader('Content-Type', 'application/json');
-          res.send(JSON.stringify(trainerStudio));
+          res.send(JSON.stringify(newTrainer));
           return;
         }
       })
@@ -62,7 +63,8 @@ const editTrainer = function(req, res) {
   }).then(trainerInstance => {
     console.log(trainerInstance);
     const data = {
-      name: req.body.name,
+      firstname: req.body.firstname,
+      lastname: req.body.lastname
     }
     trainerInstance.update(data).then(() => {
       Trainer.findOne({ where: { id: req.params.id } }).then((updatedTrainer) => {

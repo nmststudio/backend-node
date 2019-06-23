@@ -13,9 +13,15 @@ function getDatabaseModel() {
 
 const name = 'trainer';
 const schema = {
-  name: {
+  // Account informations
+  firstname: {
     type: Sequelize.STRING,
-  }
+    //    notEmpty: true,
+  },
+  lastname: {
+    type: Sequelize.STRING,
+    //    notEmpty: true,
+  },
 };
 
 // Access and Editors

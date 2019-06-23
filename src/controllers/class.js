@@ -1,11 +1,13 @@
 const studioModel = require('./../models/studio');
 const classModel = require('./../models/class');
 const userModel = require('./../models/user');
+const trainerModel = require('./../models/trainer');
 
 
 const User = userModel.getDatabaseModel()
 const Studio = studioModel.getDatabaseModel()
 const Class = classModel.getDatabaseModel()
+const Trainer = trainerModel.getDatabaseModel()
 
 const createClass = function(req, res, next) {
   console.log(req.body)
@@ -46,7 +48,12 @@ const createClass = function(req, res, next) {
 }
 const getClasses = function(req, res) {
 
-  Class.findAll({ where: { studioId: req.params.id } }).then((classes) => {
+  Class.findAll({
+    where: { studioId: req.params.id },
+    include: [{
+      model: Trainer,
+    }]
+  }).then((classes) => {
 
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(classes));
@@ -56,23 +63,35 @@ const getClasses = function(req, res) {
 
 const editClass = function(req, res) {
   // TODO: URGENT: this put doesn't have an authentication strategy
-  console.log(req.params.id)
+  console.log('TRAINERS', req.body.trainers)
   Class.findOne({
     where: { id: req.params.id }
   }).then(classInstance => {
-    console.log(classInstance);
-    const data = {
-      name: req.body.title,
-      startTime: req.body.start,
-      endTime: req.body.end
-    }
-    classInstance.update(data).then(() => {
-      Class.findOne({ where: { id: req.params.id } }).then((updatedClass) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify(updatedClass));
-      })
+    var trainersIds = req.body.trainers.map(i => i.id);
+    classInstance.setTrainers(trainersIds).then(() => {
 
-    });
+      const data = {
+        name: req.body.title,
+        startTime: req.body.start,
+        endTime: req.body.end
+      }
+      classInstance.update(data).then(() => {
+        Class.findOne({
+          include: [{
+            model: Trainer,
+          }],
+          where: { id: req.params.id }
+        }).then((updatedClass) => {
+
+          res.setHeader('Content-Type', 'application/json');
+          res.send(JSON.stringify(updatedClass));
+        })
+
+      });
+    })
+
+
+
   });
 };
 

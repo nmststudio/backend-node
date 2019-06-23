@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const userModel = require('./user');
 
 let db = null;
 
@@ -31,7 +32,11 @@ function getClass(id) {
 
 function getAllClasses() {
   console.log('fetch all studios')
-  return db.findAll();
+  return db.findAll({
+    include: [{
+      model: userModel,
+    }]
+  });
 }
 
 
